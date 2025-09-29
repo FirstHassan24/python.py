@@ -1,0 +1,11 @@
+{% extends "logbook/base.html" %}
+    {% block title %}Monster Hunter Quests</title> <!-- Sets the title in the browser tab -->
+{% endblock %}
+{% block content%}
+    <h1>Quest Board</h1> <!-- The main heading of the page -->
+    <ul> <!-- Starts an unordered list -->
+        {% for quest in quests %} <!-- Django template tag: starts a loop over the 'quests' list from the view & and build a url for each quest(the a tag:)-->
+            <li><a href="{% url 'quest-detail' pk=quest.pk %}">{{ quest.title }}</a> (Rank: {{ quest.rank }}) - Target: {{ quest.target_monster }}</li> <!-- List item: displays properties of each 'quest' object -->
+        {% endfor %} <!-- Django template tag: ends the for loop -->
+    </ul> <!-- Ends the unordered list -->
+{% endblock %}

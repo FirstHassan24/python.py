@@ -1,0 +1,11 @@
+{% extends 'logbook/base.html' %}
+{% block title %} {{chosen_quest.title}}
+{% endblock %}
+{% block content %} <h1>{{chosen_quest.title}}</h1>
+<p><strong>Rank:</strong>{{chosen_quest.rank}}</p>
+<p><strong>Target:</strong>{{chosen_quest.target_monster}}</p>
+<p><strong>Reward:</strong> {{chosen_quest.reward_zenny}} Zenny</P>
+{% if chosen_quest.target_monster == "Gor Magala" %} <!--shows gor magala img if he is the hunt target-->
+            <img src="https://i.pinimg.com/originals/e7/4b/a1/e74ba18257a551e0102c7818c9754c37.jpg" alt="" srcset="">
+            {% endif %}
+{% endblock %}

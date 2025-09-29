@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block title %}gatcha characters{% endblock %}</title>
+</head>
+<body>
+<nav>
+<ul>
+<li><a href="{% url 'quest-list' %}">mh quest-list</a></li>
+<li><a href="{% url 'servant-list'%}">fgo servant-list</a></li>
+<li><a href="{% url 'construct-list' %}">pgr construct-list</a></li>
+<li> <a href="{% url 'create-quest' %}"> create a Quest </a> </li>
+
+</ul></nav>
+<!--create a block for my child templates-->
+{% block content %}
+<h1>these are my favorit characters in videogame</h1>
+
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends "logbook/base.html"%}<!--inherits the structure of base.html-->
+{%block title%} this is a list of my favorit constructs
+{% endblock %}
+{% block content %}
+<ul>
+<!--loop over the construct view and retrieve it list of 3 dictionarys-->
+{% for item in constructs %}
+<li>
+<!--each dictionary within the list:-->
+{{item.name}}, {{item.element}}, {{item.roll}}
+    {% if item.name == "Bianca" %}<!--check if the constructs name is Bianca-->
+        <br>
+        <img src="https://cdn.donmai.us/sample/58/a2/__bianca_and_bianca_stigmata_punishing_gray_raven_drawn_by_xiao_feng__sample-58a269783dfcd512c41377c11fdd7e77.jpg" alt="" srcset="">
+        
+{% elif item.name == "Vera" %}
+    <br>
+    <img src="https://motionbgs.com/media/7702/vera-pgr.3840x2160.jpg" alt="" srcset="">
+    {% endif %}
+{% endfor %}
+</li>
+</ul>
+{% endblock %}

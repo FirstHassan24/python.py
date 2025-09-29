@@ -1,0 +1,9 @@
+{% extends "logbook/base.html" %}
+{% block title %} created Questes
+{% endblock %}
+{% block content %}
+<!--tell django  that the request is a post and submit the form back to the same url:-->
+<form method = "POST",action="">{% csrf_token %}<!-- secures the request-->{{form}} <!--renders the form object--> 
+<button type="submit"> submit </button>
+</form>
+{% endblock %}
