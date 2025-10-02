@@ -1,0 +1,10 @@
+{%extends "logbook/base.html" %}
+{% block title %} summoned servants
+{% endblock %}
+{% block content %}
+<!-- tell django that to show the POST and GET request(depending on view logic)-->
+<form method="POST",action="">{% csrf_token %}<!--sends security token if its a  POST request-->
+{{form}}<!--renders the form-->
+<button type="submit">submit</button>
+</form>
+{% endblock %}

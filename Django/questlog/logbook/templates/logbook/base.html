@@ -1,23 +1,41 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{%block title %}gatcha characters{% endblock %}</title>
+    
+    <!-- This links our stylesheet. The 'static' tag builds the correct URL to our CSS file. -->
+    <link rel="stylesheet" href="{% static 'logbook/style.css'%}">
+    
+    <!-- This block allows child templates to set a custom title for the browser tab. -->
+    <title>{% block title %}Questlog{% endblock %}</title>
 </head>
 <body>
-<nav>
-<ul>
-<li><a href="{% url 'quest-list' %}">mh quest-list</a></li>
-<li><a href="{% url 'servant-list'%}">fgo servant-list</a></li>
-<li><a href="{% url 'construct-list' %}">pgr construct-list</a></li>
-<li> <a href="{% url 'create-quest' %}"> create a Quest </a> </li>
 
-</ul></nav>
-<!--create a block for my child templates-->
-{% block content %}
-<h1>these are my favorit characters in videogame</h1>
+<!-- The <header> contains content that is consistent across all pages, like the main navigation. -->
+<header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'quest-list' %}">Quests</a></li>
+            <li><a href="{% url 'servant-list'%}">Servants</a></li>
+            <li><a href="{% url 'construct-list' %}">Constructs</a></li>
+            <li><a href="{% url 'create-quest' %}">Create a Quest</a></li>
+            <li><a href="{% url 'summon-servant' %}">summon a servant </a> </li>
+        </ul>
+    </nav>
+</header>
 
-{% endblock %}
+<!-- The <main> tag holds the primary, unique content for each page. -->
+<!-- We give it a class of 'container' so we can style it in our CSS. -->
+<main class="container">
+    <!-- This is the main content block. Child templates will override this block -->
+    <!-- with their own unique HTML content. -->
+    {% block content %}
+        <h1>Welcome to your Questlog!</h1>
+        <p>Select a category from the navigation bar to get started.</p>
+    {% endblock %}
+</main>
+
 </body>
 </html>

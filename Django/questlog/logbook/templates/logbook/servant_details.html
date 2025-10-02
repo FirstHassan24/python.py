@@ -1,0 +1,15 @@
+{% extends "logbook/base.html" %}
+{% block title %}
+{{chosen_servant.name}}
+{% endblock %}
+{% block content %}
+<h1>{{chosen_servant.name}}</h1>
+<p><strong>Class: {{chosen_servant.class_type}}</strong></p><p><strong>Rarity: {{chosen_servant.rarity}}</strong></p>
+<p><strong>Noble Phantasm: {{chosen_servant.np_name}}</strong>
+</p>
+  <!--check if the servants image is not empty are default value-->
+    {% if servant_image %}
+    <!-- grab the image of each listed servant-->
+    <img src="{{servant_image}}">
+    {% endif %}
+{% endblock %}

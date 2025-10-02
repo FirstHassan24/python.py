@@ -5,11 +5,9 @@
 <ul>
 <!-- loops over each dict inside the list-->
 {% for servant in servants %}
-<!--grab each servantes information -->
-    <li>{{servant.name}} class{{servant.class_type}} {{servant.rarity}}</li>
-    {% if servant.name == "Arjuna alter" %}
-        <img src="https://tse4.mm.bing.net/th/id/OIP.x6nZoP66_L_C0S8yd1PCdQAAAA?rs=1&pid=ImgDetMain&o=7&rm=3" alt="">
-        {% endif %}
+<!--create a link for the servant_details page-->
+    <li> <a href="{% url 'servant-details' pk=servant.pk %}"> {{servant.name}} </a> </li>
+    
 {% endfor %}
 </ul>
 {% endblock %}
