@@ -79,7 +79,8 @@ def summon_servant(request):
             #save the data but dont send it to the model yet:
             instance = form.save(commit=False)
             #check if the name already exists in the database:
-            
+            if Servant.objects.filter(name=instance.name).exists():
+                return redirect("servant-list")
             #create a api url to atlas to search for specific servants:
             api_url = "https://api.atlasacademy.io/nice/NA/servant/search"
             #specify the name of the servant to import
