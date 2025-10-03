@@ -20,4 +20,4 @@ class ServantForm(forms.ModelForm):
         #specify this form is for servants
         model = Servant
         #includes all the field from servant model
-        fields = ["name"]
+        fields = ['name']

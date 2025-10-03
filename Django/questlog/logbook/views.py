@@ -76,7 +76,28 @@ def summon_servant(request):
         form = ServantForm(request.POST)
             #check if the form is valid and save it
         if form.is_valid():
-            form.save()
+            #save the data but dont send it to the model yet:
+            instance = form.save(commit=False)
+            #check if the name already exists in the database:
+            
+            #create a api url to atlas to search for specific servants:
+            api_url = "https://api.atlasacademy.io/nice/NA/servant/search"
+            #specify the name of the servant to import
+            params = {"name":instance.name}
+            #send the request over to  the API
+            response = requests.get(api_url,params)
+            #check if our response whent through and get the code
+            if response.status_code == 200:
+                #convert the json into python
+                servant_data = response.json()
+                if servant_data:#checks if the list is empty
+                    first_servant = servant_data[0]
+                    #update the instance with the  servants rarity class_type and np_name:
+                    instance.rarity = first_servant["rarity"]
+                    instance.class_type = first_servant["className"]
+                    instance.np_name = first_servant["noblePhantasms"][0]["name"]
+                    instance.save()
+
             #redrict the user to the servant page to see the change:
             return redirect("servant-list")
         #if the request is a GET(user just entered page) show the form:
