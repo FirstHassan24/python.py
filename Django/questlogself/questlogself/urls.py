@@ -23,5 +23,6 @@ urlpatterns = [
     path("logbook/char_list",views.char_list,name="char-list"),
     path("",views.home,name="home"),
     #make a url for the summon form:
-    path("summon",views.summon,name="summon")
+    path("summon",views.summon,name="summon"),
+    path("summon",views.detail_page,name="servant-detail")
 ]

@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from .models import Fgo
 from .forms import Summon_Servant
 from django.http import HttpResponse
@@ -36,6 +36,17 @@ def char_list(request):
     context = {"char":char,"form":Summon_Servant()}
     #return the dictionary and render to html:
     return render(request,"logbook/char_list.html",context)
+
+#create a servant detail logic:
+def detail_page(request,pk):
+    #make it so if a servant is clicked they get redirected to a detailed page:
+    #(gets the pk for the  servant we want:)
+    chosen_servant = get_object_or_404(Summon_Servant,pk=pk)
+    #store it in a context dictionary:
+    context = {"chosen_servant":chosen_servant}
+    return render(request,"logbook/servant_detail.html",context)
+
+
 
 
     
