@@ -21,5 +21,7 @@ from logbook import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("logbook/char_list",views.char_list,name="char-list"),
-    path("",views.home,name="home")
+    path("",views.home,name="home"),
+    #make a url for the summon form:
+    path("summon",views.summon,name="summon")
 ]
