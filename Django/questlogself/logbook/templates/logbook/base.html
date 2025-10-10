@@ -1,12 +1,23 @@
-<!DOCTYPE html>
-<html>
+<!DOCKTYPE html>
 <head>
-{% block title %}Fgo characters{% endblock title %}
-</head>
+{% block title %}search for Fgo characters:{% endblock title %}
+{% block head %}
+
+{% endblock head %}
+<!--create a forms.py file that lets user create their own servant-->
+ </head>
 <body>
 <nav>
+<p>
+<!--use this to summon a servant(form):-->
+<form method="post">{% csrf_token %}
+{{form.name}}
+ </form>
+<!--shows a link to the character and home page:--> 
+<a href="{% url 'char-list' %}"> character list</a>
+  <a href="{% url 'home' %}"> Take me home </a>
+ </p>
 </nav>
-{% block content %}
-{% endblock content %}
+  {% block content %}
+  {% endblock content %}
 </body>
-</html>

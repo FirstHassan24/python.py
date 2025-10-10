@@ -1,4 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'logbook/base.html' %}
+{% block title %} FGO characters:
+{% endblock %}
 {% block content %}
 <!--loop over the  each character in the dictionary:-->
 {% for character in char %}
@@ -6,4 +8,3 @@
 {{character}}
 {% endfor %}
 {% endblock %}
-<!--end: figure out how to make the admin so i can create fgo characters-->
