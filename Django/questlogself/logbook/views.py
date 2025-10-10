@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import Fgo
 from .forms import Summon_Servant
 from django.http import HttpResponse
@@ -14,7 +14,7 @@ def summon(request):
         if form.is_valid():
             #save it to the database
             form.save()
-            return redirect("home")
+            return redirect("char-list")
     #handle the GET request(user entering the site):
     else:
         form = Summon_Servant()
