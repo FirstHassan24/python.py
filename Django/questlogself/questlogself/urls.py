@@ -24,5 +24,5 @@ urlpatterns = [
     path("",views.home,name="home"),
     #make a url for the summon form:
     path("summon",views.summon,name="summon"),
-    path("summon",views.detail_page,name="servant-detail")
+    path("servant/<int:pk>/",views.detail_page,name="servant-detail")
 ]

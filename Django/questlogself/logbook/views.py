@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect,get_object_or_404
 from .models import Fgo
 from .forms import Summon_Servant
 from django.http import HttpResponse
+#bring the api file so views can use it:
+from .services import get_servant
 
 # Create your views here.
 #create a function that handles the form logic:
@@ -41,9 +43,9 @@ def char_list(request):
 def detail_page(request,pk):
     #make it so if a servant is clicked they get redirected to a detailed page:
     #(gets the pk for the  servant we want:)
-    chosen_servant = get_object_or_404(Summon_Servant,pk=pk)
+    get_servant(chosen_servant.name)
     #store it in a context dictionary:
-    context = {"chosen_servant":chosen_servant}
+    context = {"get_servant":get_servant}
     return render(request,"logbook/servant_detail.html",context)
 
 
