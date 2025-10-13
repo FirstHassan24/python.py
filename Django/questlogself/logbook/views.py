@@ -43,7 +43,7 @@ def char_list(request):
 def detail_page(request,pk):
     #make it so if a servant is clicked they get redirected to a detailed page:
     #(gets the pk for the  servant we want:)
-    get_servant(chosen_servant.name)
+    get_servant(servant_info.name)
     #store it in a context dictionary:
     context = {"get_servant":get_servant}
     return render(request,"logbook/servant_detail.html",context)
