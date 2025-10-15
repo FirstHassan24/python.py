@@ -24,5 +24,7 @@ urlpatterns = [
     path("",views.home,name="home"),
     #make a url for the summon form:
     path("summon",views.summon,name="summon"),
-    path("servant/<int:pk>/",views.detail_page,name="servant-detail")
+    path("servant/<int:pk>/",views.detail_page,name="servant-detail"),
+    #connect the delete button to the function(url):    
+    path("servant_delete/int:pk",views.delete_servant,name="servant")
 ]

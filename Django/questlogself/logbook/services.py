@@ -4,42 +4,41 @@ from .models import Fgo
 
 #make a function that grabs the API keys for np,class,image:
 def get_servant(servant_name):
-    #get the API url
-    api_url = "https://api.atlasacademy.io/export/NA/nice_servant.json"
-    #get the servant info from the url:
-    response = requests.get(api_url)
-    #check the status code to make sure you get the right response:
-    if response.status_code == 200:
-        #convert the json servant info you got to python:
-        servant = response.json()
-        #store the servants information here:
-        servant_info = {}
-        #loop over each servant in the database:
-        for s in servant:
-             #check if the current servant matches what the user summoned:
-            if s.get("name").lower() == servant_name.lower():
-                #extract the fields you care about:
-                class_name = s.get("className")
-                servant_info["class_name"] = class_name
-                np = s.get("noblePhantasm")
-                servant_info["np"] = np
-                #extract the image key:
-                image = s.get("face")
-                servant_info["image"] = image
-                #summon servants have multiple nps(uncomment if you only want to see one):      
-                #np_name = s["noblePhantasms"][0]["name"] if s["noblePhantasms"] else None
-        #update the servants info in the model:
-        return servant_info
-    else:
-        return f"api call failed with the status code: {response.status_code}"
-
-
-
-
+    # Import the requests library for HTTP calls
+    import requests
     
-
-
-
-
-
-
+    # Define the API URL to search for servants by name
+    api_url = "https://api.atlasacademy.io/nice/NA/servant/search"
+    # Specify the name of the servant to request as query parameters
+    params = {"name": servant_name}
+    
+    # Send the GET request to the API with the parameters
+    response = requests.get(api_url, params=params)
+    
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        # Convert the JSON response to a Python list
+        servant_data = response.json()
+        # Check if the list is not empty (servant found)
+        if servant_data:
+            # Take the first servant from the search results
+            first_servant = servant_data[0]
+            # Extract and store servant details in a dictionary
+            servant_info = {
+                # Get the class name of the servant
+                "class_name": first_servant.get("className"),
+                # Get the noble phantasm name (handle if array is empty)
+                "np": first_servant.get("noblePhantasms", [{}])[0].get("name", "N/A"),
+                # Get the image URL with fallbacks for missing keys
+                "image": first_servant.get("extraAssets", {}).get("faces", {}).get("ascension", {}).get("1", "No image"),
+                # Get the rarity of the servant
+                "rarity": first_servant.get("rarity")
+            }
+            # Return the servant info dictionary
+            return servant_info
+        else:
+            # Return default values if no servant was found
+            return {"class_name": "Not Found", "np": "N/A", "image": "No image", "rarity": "Unknown"}
+    else:
+        # Return error info if the API call failed
+        return {"class_name": "Error", "np": f"API failed with {response.status_code}", "image": "No image", "rarity": "Unknown"}

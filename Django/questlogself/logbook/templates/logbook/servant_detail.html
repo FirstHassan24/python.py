@@ -1,7 +1,9 @@
 {% extends 'logbook/base.html' %}
 {% block content %}
+<p>servant info:</p>
 <!--show the detail of each field in our dictionary:-->
-{{api_data.name}}
-{{api_data.class_name}}
-{{api_data.np}}
+<p>rarity: {{api_data.rarity}}
+<p>class: {{api_data.class_name}}</p>
+<p>np: {{api_data.np}}</p>
+<p><img src ={{api_data.image}}></img>
 {% endblock %}

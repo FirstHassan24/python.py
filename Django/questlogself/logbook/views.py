@@ -50,7 +50,19 @@ def detail_page(request,pk):
     api_data = get_servant(servant_name)
     #store it in a context dictionary:
     context = {"api_data":api_data}
+    #test if its working:
+    print("im here")
     return render(request,"logbook/servant_detail.html",context)
+
+#tell django how to delete a servant:
+def delete_servant(request,pk):
+    #find the servant that we want to delete:
+    servant = get_object_or_404(Fgo,pk=pk)
+    #check the request that the user is making:
+    if request.method =="POST":
+        servant.delete()
+        #go back to the servant list after deleting:
+        return redirect("char_list.html")
 
 
 
