@@ -2,13 +2,13 @@
 {% block title %} FGO characters:
 {% endblock %}
 {% block content %}
+<!--loop over the  each character in the dictionary:-->
+{% for servant in char %}
 <!--create a delete form so you can get rid of uneeded servants-->
-<form method="post" action="{%url 'delete_servant' servant.id %}">
+<form method="post" action="{%url 'delete-servant' servant.id %}">
  {% csrf_token %}
 <button type="submit">Delet</button>
 </form>
-<!--loop over the  each character in the dictionary:-->
-{% for servant in char %}
 <!--display each character-->
 <!--make it so when we click on each character it takes you its detailed page:-->
 <a href="{% url 'servant-detail' servant.id %}">{{servant}}</a>

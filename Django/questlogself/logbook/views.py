@@ -1,70 +1,79 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Fgo
 from .forms import Summon_Servant
 from django.http import HttpResponse
-#bring the api file so views can use it:
+# Import the services module for API functions
 from .services import get_servant
 
 # Create your views here.
-#create a function that handles the form logic:
+# Function to handle form submission for summoning servants
 def summon(request):
-    #handle the logic if the user input something:
-    if request.method =="POST":
-        #link the users request with the form:
+    # Check if the request method is POST (form submission)
+    if request.method == "POST":
+        # Create a form instance with the submitted data
         form = Summon_Servant(request.POST)
-        #check if the form is valid:
+        # Check if the form data is valid
         if form.is_valid():
-            #save it to the database
+            # Save the valid form data to the database
             form.save()
+            # Redirect to the character list page after saving
             return redirect("char-list")
-    #handle the GET request(user entering the site):
+    # Handle GET requests (user visiting the page)
     else:
+        # Create an empty form for GET requests
         form = Summon_Servant()
-        #render it inside char_list so user can see it their:
-        return render(request,"logbook/char_list.html",{"form":form})
-#create a function for the base html:
+        # Render the char_list template with the form in context
+        return render(request, "logbook/char_list.html", {"form": form})
+
+# Function to render the home page
 def home(request):
-    #when the user enters the site this is what they see first:
-    context = {"title":"Hi welcome to my fgo character list choose your favorit character:",
-    #make it so the views also render the searchbar
-"form":Summon_Servant()}
-    return render(request,"logbook/base.html",context)
+    # Define the context for the home page
+    context = {
+        # Title to display on the home page
+        "title": "Hi welcome to my fgo character list choose your favorit character:",
+        # Form for summoning servants
+        "form": Summon_Servant()
+    }
+    # Render the base template with the context
+    return render(request, "logbook/base.html", context)
 
-#create a list of  the fgo characters from the database:
+# Function to list all FGO characters
 def char_list(request):
-#get all the character field from the database:
+    # Retrieve all Fgo objects from the database
     char = Fgo.objects.all()
-    #store them inside a context dictionary:
-    context = {"char":char,"form":Summon_Servant()}
-    #return the dictionary and render to html:
-    return render(request,"logbook/char_list.html",context)
+    # Store the characters and form in a context dictionary
+    context = {
+        # List of all characters
+        "char": char,
+        # Form for summoning servants
+        "form": Summon_Servant()
+    }
+    # Render the char_list template with the context
+    return render(request, "logbook/char_list.html", context)
 
-#create a servant detail logic:
-def detail_page(request,pk):
-    #make it so if a servant is clicked they get redirected to a detailed page:
-    #(gets the pk for the  servant we want:)
+# Function to display details of a specific servant
+def detail_page(request, pk):
+    # Get the servant object by primary key or return 404 if not found
     servant = Fgo.objects.get(pk=pk)
-    #get the name of the servant we want:
+    # Extract the servant's name for API lookup
     servant_name = servant.name
-    #call the api function and pass the servants name to it:
+    # Call the API function to get servant details
     api_data = get_servant(servant_name)
-    #store it in a context dictionary:
-    context = {"api_data":api_data}
-    #test if its working:
-    print("im here")
-    return render(request,"logbook/servant_detail.html",context)
+    # Store the API data in a context dictionary
+    context = {
+        # API data for the servant
+        "api_data": api_data
+    }
+    # Render the servant_detail template with the context
+    return render(request, "logbook/servant_detail.html", context)
 
-#tell django how to delete a servant:
-def delete_servant(request,pk):
-    #find the servant that we want to delete:
-    servant = get_object_or_404(Fgo,pk=pk)
-    #check the request that the user is making:
-    if request.method =="POST":
+# Function to delete a specific servant
+def delete_servant(request, pk):
+    # Get the servant object by primary key or return 404 if not found
+    servant = get_object_or_404(Fgo, pk=pk)
+    # Check if the request method is POST (form submission)
+    if request.method == "POST":
+        # Delete the servant from the database
         servant.delete()
-        #go back to the servant list after deleting:
-        return redirect("char_list.html")
-
-
-
-
-    
+        # Redirect to the character list page after deletion
+        return redirect("char-list")

@@ -26,5 +26,5 @@ urlpatterns = [
     path("summon",views.summon,name="summon"),
     path("servant/<int:pk>/",views.detail_page,name="servant-detail"),
     #connect the delete button to the function(url):    
-    path("servant_delete/int:pk",views.delete_servant,name="servant")
+    path("servant/<int:pk>/delete/",views.delete_servant,name="delete-servant")
 ]
