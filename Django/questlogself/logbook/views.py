@@ -1,29 +1,43 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Fgo
+# Import error handler for when database rules are violated (e.g., duplicate name)
+from django.db import IntegrityError
+# Import the servant form the user fills out
 from .forms import Summon_Servant
 from django.http import HttpResponse
 # Import the services module for API functions
 from .services import get_servant
 
 # Create your views here.
-# Function to handle form submission for summoning servants
+# Handle the form submission to create a new servant
 def summon(request):
-    # Check if the request method is POST (form submission)
+    # Check if the request is a POST (form submission)
     if request.method == "POST":
-        # Create a form instance with the submitted data
+        # Bind the submitted data to the form
         form = Summon_Servant(request.POST)
-        # Check if the form data is valid
+
+        # Check if all form data passes validation
         if form.is_valid():
-            # Save the valid form data to the database
-            form.save()
-            # Redirect to the character list page after saving
-            return redirect("char-list")
-    # Handle GET requests (user visiting the page)
+            # Try saving the form — database is the final authority
+            try:
+                # Save the new servant to the database
+                form.save()
+
+                # Redirect the user back to the character list page
+                return redirect("char-list")
+
+            # Catch any duplicate errors that slip past validation
+            except IntegrityError:
+                # Attach a friendly error to the form instead of crashing
+                form.add_error("name", "This servant already exists.")
+
+        # If the form isn’t valid, it’ll fall through and re-render with errors
     else:
-        # Create an empty form for GET requests
+        # For GET requests (when visiting the page), show an empty form
         form = Summon_Servant()
-        # Render the char_list template with the form in context
-        return render(request, "logbook/char_list.html", {"form": form})
+
+    # Render the form on the character list page, including any validation errors
+    return render(request, "logbook/char_list.html", {"form": form})
 
 # Function to render the home page
 def home(request):
