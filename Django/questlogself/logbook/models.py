@@ -7,13 +7,13 @@ class Fgo(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     # Noble Phantasm name (special move)
-    np = models.CharField(max_length=45)
+    np = models.CharField(max_length=45, blank=True)#lets me keep the field blank
 
     # Class name (e.g., Saber, Archer, etc.)
-    class_name = models.CharField(max_length=12)
+    class_name = models.CharField(max_length=12, blank=True)
 
     # Image URL or file path (simple text field for now)
-    image = models.CharField(max_length=255)
+    image = models.CharField(max_length=255, blank=True)
 
     # String representation of the object — how it shows up in admin or print()
     def __str__(self):

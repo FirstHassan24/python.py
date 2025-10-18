@@ -10,9 +10,13 @@
 <nav>
 <p>
 <!--use this to summon a servant(form):-->
-<form method="post" action = "{% url 'summon' %}">{% csrf_token %}
+<form method="post" action = "{% url 'summon' %}">
+<!--requred for post request:-->
+{% csrf_token %}
 {{form.name}}
 <button type = "submit"> summon servant </button>
+<!--shows any errors that pops up:-->
+{{form.errors}}
  </form>
 <!--shows a link to the character and home page:--> 
 <a href="{% url 'char-list' %}"> character list</a>

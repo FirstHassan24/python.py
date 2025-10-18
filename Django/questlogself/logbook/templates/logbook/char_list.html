@@ -4,6 +4,7 @@
 {% block content %}
 <!--loop over the  each character in the dictionary:-->
 {% for servant in char %}
+
 <!--create a delete form so you can get rid of uneeded servants-->
 <form method="post" action="{%url 'delete-servant' servant.id %}">
  {% csrf_token %}

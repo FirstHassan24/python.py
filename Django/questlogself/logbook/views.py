@@ -35,6 +35,7 @@ def summon(request):
     else:
         # For GET requests (when visiting the page), show an empty form
         form = Summon_Servant()
+        print(form.errors)
 
     # Render the form on the character list page, including any validation errors
     return render(request, "logbook/char_list.html", {"form": form})
