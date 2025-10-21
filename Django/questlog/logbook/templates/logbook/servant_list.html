@@ -6,8 +6,14 @@
 <!-- loops over each dict inside the list-->
 {% for servant in servants %}
 <!--create a link for the servant_details page-->
-    <li> <a href="{% url 'servant-details' pk=servant.pk %}"> {{servant.name}} </a> </li>
-    
+    <li> <a href="{% url 'servant-details' pk=servant.pk %}"> {{servant.name}} </a>
+    <!--create a form to delete a servant:-->
+<form method="POST",action="{% url 'delete-servant' servant.pk %}">
+<!--make sure the post request cant be forged:-->
+{% csrf_token %}
+ <button type="submit">Delete</button>
+</form> 
+</li>
 {% endfor %}
 </ul>
 {% endblock %}

@@ -21,3 +21,15 @@ class ServantForm(forms.ModelForm):
         model = Servant
         #includes all the field from servant model
         fields = ['name']
+        # Custom validation to prevent duplicates (case-insensitive)
+    def clean_name(self):
+        # Get the submitted name from the form data
+        name = self.cleaned_data["name"]
+
+        # Check if a servant with the same name already exists in the DB
+        if Servant.objects.filter(name__iexact=name).exists():
+            # Raise a form-level error instead of crashing
+            raise forms.ValidationError("This servant already exists.")
+
+        # If no duplicates are found, return the valid name
+        return name

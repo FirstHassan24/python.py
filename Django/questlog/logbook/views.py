@@ -1,5 +1,5 @@
 # Import necessary functions and classes from Django and the current app.
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from .models import Quest, Servant, Construct
 from .forms import QuestForm, ServantForm
 import requests
@@ -56,17 +56,11 @@ def create_quest(request):
 
 # This view handles the page that lists all the Servants.
 def servant_list(request):
+    #grabs all the servants from the model:
     servants = Servant.objects.all()
+    #puts the servants into a dictionary:
     context = {"servants": servants}
     return render(request, "logbook/servant_list.html", context)
-
-# --- Construct Views ---
-
-# This view handles the page that lists all the Constructs.
-def construct_list(request):
-    constructs = Construct.objects.all()
-    context = {"constructs": constructs}
-    return render(request, "logbook/construct_list.html", context)
 
 #this view handles displaying the servant and proccessing the submited data:
 def summon_servant(request):
@@ -92,11 +86,13 @@ def summon_servant(request):
                 #convert the json into python
                 servant_data = response.json()
                 if servant_data:#checks if the list is empty
+                    #grabs the first matching servant:
                     first_servant = servant_data[0]
                     #update the instance with the  servants rarity class_type and np_name:
                     instance.rarity = first_servant["rarity"]
                     instance.class_type = first_servant["className"]
                     instance.np_name = first_servant["noblePhantasms"][0]["name"]
+                    #let the instace update the data in the model:
                     instance.save()
 
             #redrict the user to the servant page to see the change:
@@ -140,5 +136,23 @@ def servant_details(request,pk):
     #grab the servants image from the API
     context["servant_image"] = image_url
     return render(request,"logbook/servant_details.html",context)
+def delete_servant(request,pk):
+     #find the servant you summoned 
+    servant = get_object_or_404(Fgo,pk=pk)
+    if request.method =="POST":
+        #remove it from the DB:
+        servant.delete()
+        #refreshes the page:
+        return redirect("servant-list")
+
+
+# --- Construct Views ---
+
+# This view handles the page that lists all the Constructs.
+def construct_list(request):
+    constructs = Construct.objects.all()
+    context = {"constructs": constructs}
+    return render(request, "logbook/construct_list.html", context)
+
 
 

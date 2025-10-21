@@ -23,6 +23,8 @@ urlpatterns = [
     path("summon/servant",views.summon_servant,name="summon-servant"),
     #create the url then capture the int(pk) and pass it to the views: 
     path("servant/<int:pk>/",views.servant_details,name="servant-details"),
+    #sends the pk to view to run the delete function:
+    path("delete/<int:pk>/",views.delete_servant,name="delete-servant"),
 
     # --- Construct URLs ---
     # URL for the list of all constructs. Calls the 'construct_list' view.
