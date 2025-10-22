@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if is_edit%}Edit servant {% else %}Summon Servant {% endif %}</title>
+</head>
+<body>
+  <h1>{% if is_edit %}Edit Servant{% else %}Summon New Servant{% endif %}</h1>
+
+    <!-- Form starts here. 'method="post"' tells Django to send data securely. -->
+    <form method="post">
+        <!-- Required token that protects from malicious attacks -->
+        {% csrf_token %}
+        <!-- Render form fields that map to our model -->
+        {{ form.as_p }}
+
+        <!-- Button the user clicks to summon (save) the servant & Button text changes based on create vs edit: -->
+        <button type="submit">{% if is_edit %}Update{% else %}Summon{% endif %}</button>
+    </form>
+
+    <!-- Link back to the list of existing servants -->
+    <a href="{% url 'servant-list' %}">Back to Chaldea Logbook</a>
+</body>
+</html>

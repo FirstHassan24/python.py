@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Servants</title>
+</head>
+<body>
+    <h1>Servant List</h1>
+<!--Link to create a brand new servant:-->
+<p><a href="{% url 'servant-create' %}"> </a> Summon New Servant </p>
+    <ul>
+        <!--loop over the servants db and grab each of their fields-->
+        {% for servant in servants %}
+            <li>{{ servant.name }} — {{ servant.class_name }} (⭐{{ servant.rarity }})
+            <!-- Edit link goes to /<id>/edit/ -->
+            <a href="{% url 'servant-update' servant.pk %}">edit</a>
+</li>
+        {% empty %}
+            <li>No servants summoned yet.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
